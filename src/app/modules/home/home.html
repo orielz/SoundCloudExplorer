@@ -1,0 +1,71 @@
+<section class="home padding-top-double" ng-controller="HomeController as vm">
+
+    <div class="container">
+
+        <div class="row">
+            <h3 class="col-xs-12">
+                SoundCloud Explorer
+            </h3>
+        </div>
+
+        <!-- Search section -->
+        <div class="row">
+            <div class="col-xs-12">
+                <form class="form-inline" role="form" novalidate name="form">
+                    <div class="form-group">
+                        <input type="text" placeholder="Search for a SoundCloud item" class="form-control search-input" ng-model="vm.model.query" name="query" ng-keydown="vm.submitted=false;" required>
+                        <button type="submit" class="btn btn-primary" ng-click="vm.submitted=true; vm.submit(form)">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                   <span class="error padding-left" ng-show="form.query.$error.required && vm.submitted">Please fill this field.</span>
+            </div>
+        </div>
+
+        <!-- Seperator -->
+        <div class="row">
+            <div class="col-xs-12">
+                <hr/>
+            </div>
+        </div>
+
+        <!-- Containers Titles -->
+        <div class="row">
+            <div class="col-xs-4"><h4 ng-hide="!vm.filteredResults || vm.filteredResults == 0">Results</h4></div>
+            <div class="col-xs-4"><h4 ng-show="vm.played">Player</h4></div>
+            <div class="col-xs-4"><h4 ng-hide="!vm.history || vm.history == 0">History</h4></div>
+        </div>
+
+        <!-- Containers -->
+        <div class="row">
+            <ul class="col-xs-4 results">
+                <li ng-repeat="item in vm.filteredResults" ng-click="vm.play(item)">
+                    <a href="" alt="">{{::item.title}}</a>
+                </li>
+            </ul>
+            <div class="col-xs-4 player">
+                <iframe ng-show="vm.played" soundcloud-player id="sc-widget" width="100%" height="166" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=http%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F1848538&show_artwork=true"></iframe>
+            </div>
+            <ul class="col-xs-4 history" ng-hide="!vm.history || vm.history == 0">
+                <li ng-repeat="item in vm.history" ng-click="vm.search(item)">
+                    <a href="" alt="">{{::item}}</a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Pagination -->
+        <div class="row" ng-hide="!vm.filteredResults || vm.filteredResults == 0">
+            <div class="col-xs-12 center-align">
+                <pagination total-items="totalItems" items-per-page="vm.itemsPerPage" ng-model="vm.currentPage" ng-change="vm.pageChanged()"></pagination>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!--<div ng-include="'app/modules/search-noresult-partial/search-noresult-partial.html'"></div>-->
+
+</section>
